@@ -6,14 +6,18 @@
   "scripts": {
     "prepack": "npm run make",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "live-reload": "live-reload --port 35729 ./public/",
-    "build:styles": "suitcss ./src/styles.css --verbose > ./public/styles.css",
+    "livereload": "livereload ./public/",
+    "watch": "parallelshell 'npm run livereload' 'npm run watch:styles' 'npm run watch:scripts' 'npm run watch:html'",
+    "build:styles": "suitcss --verbose ./src/styles.css > ./public/styles.css",
     "make:styles": "suitcss ./src/styles.css -c > ./public/styles.css",
+    "watch:styles": "suitcss --watch --verbose ./src/styles.css ./public/styles.css",
     "build:scripts": "browserify ./src/main.jsx -t babelify -t flowcheck --debug > ./public/main.js",
     "make:scripts": "browserify ./src/main.jsx -t babelify | uglifyjs > ./public/main.js",
+    "watch:scripts": "watchify ./src/main.jsx -t babelify -t flowcheck --debug -o ./public/main.js -v",
     "make:polyfill": "browserify ./src/polyfill.js | uglifyjs > ./public/polyfill.js",
     "make:assets": "cp -r ./src/assets ./public/assets",
     "make:html": "mustache package.json ./src/tmpl/index.hjs > ./public/index.html",
+    "watch:html": "watch 'npm run make:html' ./src/tmpl",
     "clean": "rm -rf ./public/ && mkdir ./public",
     "prebuild": "npm run clean",
     "build": "npm run make:assets && npm run make:html && npm run make:polyfill && npm run build:scripts && npm run build:styles",
@@ -38,10 +42,12 @@
     "babelify": "^6.0.2",
     "browserify": "^9.0.7",
     "flowcheck": "^0.2.3",
-    "hogan.js": "^3.0.2",
-    "live-reload": "^1.1.0",
+    "livereload": "^0.3.7",
     "mustache": "^2.0.0",
+    "parallelshell": "^1.1.1",
     "suitcss-preprocessor": "^0.4.0",
-    "uglifyjs": "^2.4.10"
+    "uglifyjs": "^2.4.10",
+    "watch": "^0.16.0",
+    "watchify": "^3.1.0"
   }
 }

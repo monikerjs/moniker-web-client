@@ -1,4 +1,35 @@
 
+
+/**
+ * Component includes
+ * ---
+ * @TODO this can/should be automated
+ */
+
+
+
+/**
+ * Base
+ * ---
+ * @TODO this should not be a permanent home
+ */
+
+:root {
+    --bg-color: #f1f1f1;
+    --color: #404040;
+}
+
 body {
-    background: blue;
+    color: var( --color );
+    background: var( --bg-color );
+    margin: 0;
+    padding: 30px;
+    font-family: 'Helvetica Neue', 'Lucida Grande', Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: greyscale;
+}
+
+h1 {
+    color: var( --color );
+    font-weight: 300;
 }
