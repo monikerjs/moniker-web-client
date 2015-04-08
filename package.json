@@ -1,0 +1,47 @@
+{
+  "name": "moniker-web-client",
+  "version": "0.1.0",
+  "description": "Web client for moniker",
+  "main": "servePath.js",
+  "scripts": {
+      "env":"env",
+    "prepack": "npm run make",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build:styles": "suitcss ./src/styles.css --verbose > ./public/styles.css",
+    "make:styles": "suitcss ./src/styles.css -c > ./public/styles.css",
+    "build:scripts": "browserify ./src/main.jsx -t babelify -t flowcheck --debug > ./public/main.js",
+    "make:scripts": "browserify ./src/main.jsx -t babelify | uglifyjs > ./public/main.js",
+    "make:polyfill": "browserify ./src/polyfill.js | uglifyjs > ./public/polyfill.js",
+    "make:assets": "cp -r ./src/assets ./public/assets",
+    "make:html": "mustache package.json ./src/tmpl/index.hjs > ./public/index.html",
+    "clean": "rm -rf ./public/ && mkdir ./public",
+    
+    "prebuild": "npm run clean",
+    "build": "npm run make:assets && npm run make:html && npm run make:polyfill && npm run build:scripts && npm run build:styles",
+    "premake": "npm run clean",
+    "make": "NODE_ENV=prod npm run make:assets && npm run make:html && npm run make:polyfill && npm run make:scripts && npm run make:styles"
+  },
+  "files": [
+    "public/**",
+    "servePath.js"
+  ],
+  "private": "true",
+  "author": "Matt Styles",
+  "repository": "git://github.com/mattstyles/moniker-web-client.git",
+  "license": "WTFPL",
+  "dependencies": {
+    "babel": "^5.0.12",
+    "eventemitter3": "^0.1.6",
+    "flux": "^2.0.1",
+    "react": "^0.13.1"
+  },
+  "devDependencies": {
+    "babelify": "^6.0.2",
+    "browserify": "^9.0.7",
+    "flowcheck": "^0.2.3",
+    "hogan.js": "^3.0.2",
+    "mustache": "^2.0.0",
+    "suitcss-preprocessor": "^0.4.0",
+    "uglifyjs": "^2.4.10"
+  }
+}
