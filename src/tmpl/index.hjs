@@ -10,6 +10,7 @@
 </head>
 <body>
     <h1>Hello</h1>
+    <button id="get">Go get me some pie</button>
     <script src="./main.js" charset="utf-8"></script>
 </body>
 </html>
