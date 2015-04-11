@@ -1,0 +1,39 @@
+
+
+/**
+ * Component includes
+ * ---
+ * @TODO this can/should be automated
+ */
+@import './components/header/header';
+
+
+/* Media query aliases */
+@sm-view: ~"only screen and ( max-width: 479px )";
+@md-view: ~"only screen and ( max-width: 789px )";
+@lg-view: ~"only screen and ( max-width: 1023px )";
+
+
+/**
+ * Base
+ * ---
+ * @TODO this should not be a permanent home
+ */
+
+@bg-color: #fafafa;
+@color: #404040;
+
+body {
+    color: @color;
+    background: @bg-color;
+    margin: 0;
+    padding: 0px;
+    font-family: 'Helvetica Neue', 'Lucida Grande', Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: greyscale;
+}
+
+h1 {
+    color: @color;
+    font-weight: 300;
+}

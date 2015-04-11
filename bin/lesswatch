@@ -1,0 +1,67 @@
+#!/usr/bin/env node
+
+var fs = require( 'fs' );
+var path = require( 'path' );
+
+var chokidar = require( 'chokidar' );
+var argv = require( 'minimist' )( process.argv.slice( 2 ) );
+var chalk = require( 'chalk' );
+var less = require( 'less' );
+
+var watchers = [];
+
+/**
+ * -i _Required_ main import file e.g. ./src/styles.less
+ * -o _Required_ output file e.g. ./public/styles.css
+ * -c _optional_ compression flag
+ * _ _Required_ glob to watch
+ */
+// @example
+// ./lesswatch ./src/**/glob-pattern*.less -i ./src/main.less -o ./public/main.css
+
+
+function log() {
+    if ( argv[ 'suppress-output' ] ) {
+        return;
+    }
+
+    process.stdout.write( chalk.grey( '  [lesswatch] ' ) );
+    console.log.apply( console, arguments );
+}
+
+
+
+var watcher = chokidar.watch( argv._ )
+    .on( 'change', function( filepath ) {
+        log( chalk.cyan( 'change' ), filepath );
+
+        var input = fs.readFileSync( argv.i, {
+            encoding: 'utf8'
+        });
+
+        less.render( input, {
+            filename: argv.i,
+            paths: [
+                './src/'
+            ],
+            compress: argv.c,
+            sourceMapFileInline: true
+        })
+            .then( function( output ) {
+                fs.writeFileSync( argv.o, output.css );
+                log( chalk.cyan( 'write' ), argv.o );
+            })
+            .catch( function( err ) {
+                console.error( err );
+            })
+    })
+    .on( 'ready', function() {
+        var filepath = '';
+        // List watched files
+        Object.keys( watcher._watched ).forEach( function( key ) {
+            Object.keys( watcher._watched[ key ]._items ).forEach( function( item ) {
+                filepath = path.join( key, item );
+                log( chalk.cyan( 'watch' ), filepath.replace( process.env.PWD + '/', '' ) );
+            });
+        });
+    });

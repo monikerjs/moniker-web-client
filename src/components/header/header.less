@@ -1,0 +1,25 @@
+/** @define Header; use strict */
+
+.Header {
+    @height: 80px;
+
+    height: @height;
+    font-size: 40px;
+    line-height: @height - 1;
+    font-family: 'Museo Slab';
+    color: #404040;
+
+    @media @sm-view {
+        height: 40px;
+        line-height: 39px;
+        font-size: 28px;
+    }
+
+    .Header-logo {
+        margin-left: 40px;
+
+        @media @sm-view {
+            margin-left: 5px;
+        }
+    }
+}

@@ -10,7 +10,7 @@ export default class HeaderView extends React.Component {
         console.log( '[Header]:: render');
         return (
             <header className="Header">
-                <span>M</span>
+                <span className="Header-logo">M</span>
             </header>
         );
     }
