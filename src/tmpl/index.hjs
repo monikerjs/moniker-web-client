@@ -9,25 +9,6 @@
     <script src="./polyfill.js" charset="utf-8"></script>
 </head>
 <body>
-    <h1>Hello</h1>
-    <button id="get">Go get me some pie</button>
-    <div class="category">
-        <h2>Add Category</h2>
-        <label for="category">Category Name</label>
-        <input id="cat-text" type="text" name="category" value="" placeholder="insert category name">
-        <input type="button" name="addCategory" value="New Category">
-    </div>
-    <div class="name">
-        <h2>Add Name</h2>
-        <label for="category">Name</label>
-        <input id="name-text" type="text" name="category" value="" placeholder="insert new name">
-        <input type="button" name="addName" value="New Name">
-    </div>
-    <h2 id="category-title"></h2>
-    <ul class="names">
-
-    </ul>
-
     <script src="./main.js" charset="utf-8"></script>
 </body>
 </html>

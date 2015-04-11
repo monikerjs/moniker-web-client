@@ -5,7 +5,14 @@
  * ---
  * @TODO this can/should be automated
  */
+@import 'suitcss';
+@import './components/header/header.css';
 
+
+/* Media query aliases */
+@custom-media --lg-viewport ( max-width: 1023px );
+@custom-media --md-viewport ( max-width: 979px );
+@custom-media --sm-viewport ( max-width: 640px );
 
 
 /**
@@ -15,7 +22,7 @@
  */
 
 :root {
-    --bg-color: #f1f1f1;
+    --bg-color: #fafafa;
     --color: #404040;
 }
 
@@ -23,11 +30,22 @@ body {
     color: var( --color );
     background: var( --bg-color );
     margin: 0;
-    padding: 30px;
+    padding: 0px;
     font-family: 'Helvetica Neue', 'Lucida Grande', Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: greyscale;
 }
+
+@media (--lg-viewport) {
+
+}
+@media (--md-viewport) {
+
+}
+@media (--sm-viewport) {
+
+}
+
 
 h1 {
     color: var( --color );
