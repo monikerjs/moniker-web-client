@@ -12,12 +12,13 @@ var watchers = [];
 
 /**
  * -i _Required_ main import file e.g. ./src/styles.less
- * -o _Required_ output file e.g. ./public/styles.css
+ * -o _optional_ output file e.g. ./public/styles.css - if omitted pipes to stdout
  * -c _optional_ compression flag
  * _ _Required_ glob to watch
  */
 // @example
 // ./lesswatch ./src/**/glob-pattern*.less -i ./src/main.less -o ./public/main.css
+// ./lesswatch ./src/**/*.less -i ./src/styles.less --suppress-output > ./public/styles.css
 
 
 function log() {
@@ -29,31 +30,41 @@ function log() {
     console.log.apply( console, arguments );
 }
 
+function compile() {
+    var input = fs.readFileSync( argv.i, {
+        encoding: 'utf8'
+    });
 
+    less.render( input, {
+        filename: argv.i,
+        paths: [
+            './src/'
+        ],
+        compress: argv.c,
+        sourceMap: {
+            sourceMapFileInline: true
+        }
+    })
+        .then( function( output ) {
+            if ( argv.o ) {
+                fs.writeFileSync( argv.o, output.css );
+            } else {
+                console.log( output.css );
+            }
+            log( chalk.cyan( 'write' ), argv.o );
+        })
+        .catch( function( err ) {
+            console.error( err );
+        });
+}
+
+compile();
 
 var watcher = chokidar.watch( argv._ )
     .on( 'change', function( filepath ) {
         log( chalk.cyan( 'change' ), filepath );
+        compile();
 
-        var input = fs.readFileSync( argv.i, {
-            encoding: 'utf8'
-        });
-
-        less.render( input, {
-            filename: argv.i,
-            paths: [
-                './src/'
-            ],
-            compress: argv.c,
-            sourceMapFileInline: true
-        })
-            .then( function( output ) {
-                fs.writeFileSync( argv.o, output.css );
-                log( chalk.cyan( 'write' ), argv.o );
-            })
-            .catch( function( err ) {
-                console.error( err );
-            })
     })
     .on( 'ready', function() {
         var filepath = '';
