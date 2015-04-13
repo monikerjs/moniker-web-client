@@ -48,7 +48,11 @@ var watcher = chokidar.watch( argv._ )
             encoding: 'utf8'
         });
 
-        flawless.compile( input, function( output ) {
+        flawless.compile( input, function( err, output ) {
+            if ( err ) {
+                return console.error( err );
+            }
+            
             fs.writeFileSync( argv.o, output.css );
             log( chalk.cyan( 'write' ), argv.o );
         });
