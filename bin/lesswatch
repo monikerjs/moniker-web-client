@@ -7,6 +7,7 @@ var chokidar = require( 'chokidar' );
 var argv = require( 'minimist' )( process.argv.slice( 2 ) );
 var chalk = require( 'chalk' );
 var less = require( 'less' );
+var Flawless = require( 'flawless-compile' );
 
 var watchers = [];
 
@@ -20,6 +21,14 @@ var watchers = [];
 // ./lesswatch ./src/**/glob-pattern*.less -i ./src/main.less -o ./public/main.css
 // ./lesswatch ./src/**/*.less -i ./src/styles.less --suppress-output > ./public/styles.css
 
+var flawless = new Flawless({
+    filename: argv.i,
+    paths: [
+        './src/'
+    ],
+    compress: argv.c,
+    sourceMap: true
+})
 
 function log() {
     if ( argv[ 'suppress-output' ] ) {
@@ -35,27 +44,14 @@ function compile() {
         encoding: 'utf8'
     });
 
-    less.render( input, {
-        filename: argv.i,
-        paths: [
-            './src/'
-        ],
-        compress: argv.c,
-        sourceMap: {
-            sourceMapFileInline: true
+    flawless.compile( input, function( err, output ) {
+        if ( err ) {
+            return console.error( err );
         }
-    })
-        .then( function( output ) {
-            if ( argv.o ) {
-                fs.writeFileSync( argv.o, output.css );
-            } else {
-                console.log( output.css );
-            }
-            log( chalk.cyan( 'write' ), argv.o );
-        })
-        .catch( function( err ) {
-            console.error( err );
-        });
+
+        fs.writeFileSync( argv.o, output.css );
+        log( chalk.green( 'write' ), argv.o );
+    });
 }
 
 compile();
@@ -64,7 +60,6 @@ var watcher = chokidar.watch( argv._ )
     .on( 'change', function( filepath ) {
         log( chalk.cyan( 'change' ), filepath );
         compile();
-
     })
     .on( 'ready', function() {
         var filepath = '';

@@ -5,7 +5,7 @@
  * ---
  * @TODO this can/should be automated
  */
-@import './components/header/header';
+/*@import './components/header/header';*/
 
 
 /* Media query aliases */
@@ -36,4 +36,9 @@ body {
 h1 {
     color: @color;
     font-weight: 300;
+    transition: color 1s linear;
+
+    &:hover {
+        transform: translate3d( 10px, 0, 0 );
+    }
 }
