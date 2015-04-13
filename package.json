@@ -10,6 +10,8 @@
     "watch": "parallelshell 'npm run livereload' 'npm run watch:styles' 'npm run watch:scripts' 'npm run watch:html'",
     "build:styles": "lessc ./src/styles.less --autoprefix=\"last 2 versions\" > ./public/styles.css",
     "make:styles": "lessc ./src/styles.less -x > ./public/styles.css",
+    "build:flawless": "flawless -p src --source-map < ./src/styles.less > ./public/styles.css",
+    "make:flawless": "flawless -p src -c --source-map < ./src/styles.less > ./public/styles.css",
     "watch:styles": "./bin/lesswatch ./src/**/*.less -i ./src/styles.less -o ./public/styles.css",
     "build:scripts": "browserify ./src/main.jsx -t babelify -t flowcheck --debug > ./public/main.js",
     "make:scripts": "browserify ./src/main.jsx -t babelify | uglifyjs > ./public/main.js",
