@@ -7,6 +7,7 @@ var chokidar = require( 'chokidar' );
 var argv = require( 'minimist' )( process.argv.slice( 2 ) );
 var chalk = require( 'chalk' );
 var less = require( 'less' );
+var Flawless = require( 'flawless-compile' );
 
 var watchers = [];
 
@@ -19,6 +20,14 @@ var watchers = [];
 // @example
 // ./lesswatch ./src/**/glob-pattern*.less -i ./src/main.less -o ./public/main.css
 
+var flawless = new Flawless({
+    filename: argv.i,
+    paths: [
+        './src/'
+    ],
+    compress: argv.c,
+    sourceMap: true
+})
 
 function log() {
     if ( argv[ 'suppress-output' ] ) {
@@ -39,21 +48,10 @@ var watcher = chokidar.watch( argv._ )
             encoding: 'utf8'
         });
 
-        less.render( input, {
-            filename: argv.i,
-            paths: [
-                './src/'
-            ],
-            compress: argv.c,
-            sourceMapFileInline: true
-        })
-            .then( function( output ) {
-                fs.writeFileSync( argv.o, output.css );
-                log( chalk.cyan( 'write' ), argv.o );
-            })
-            .catch( function( err ) {
-                console.error( err );
-            })
+        flawless.compile( input, function( output ) {
+            fs.writeFileSync( argv.o, output.css );
+            log( chalk.cyan( 'write' ), argv.o );
+        });
     })
     .on( 'ready', function() {
         var filepath = '';
