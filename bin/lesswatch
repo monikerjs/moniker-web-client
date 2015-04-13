@@ -13,7 +13,7 @@ var watchers = [];
 
 /**
  * -i _Required_ main import file e.g. ./src/styles.less
- * -o _optional_ output file e.g. ./public/styles.css - if omitted pipes to stdout
+ * -o _Required_ output file e.g. ./public/styles.css - if omitted pipes to stdout
  * -c _optional_ compression flag
  * _ _Required_ glob to watch
  */
