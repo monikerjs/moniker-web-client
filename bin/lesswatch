@@ -6,15 +6,13 @@ var path = require( 'path' );
 var chokidar = require( 'chokidar' );
 var argv = require( 'minimist' )( process.argv.slice( 2 ) );
 var chalk = require( 'chalk' );
-var less = require( 'less' );
 var Flawless = require( 'flawless-compile' );
 var Autoprefixer = require( 'autoprefixer-transform' );
 
-var watchers = [];
 
 /**
- * -i _Required_ main import file e.g. ./src/styles.less
- * -o _Required_ output file e.g. ./public/styles.css - if omitted pipes to stdout
+ * -e _Required_ main entry point e.g. ./src/styles.less
+ * -o _optional_ output file e.g. ./public/styles.css - if omitted will pipe to stdout
  * -c _optional_ compression flag
  * _ _Required_ glob to watch
  */
@@ -36,7 +34,7 @@ function log() {
 function compile() {
     // Create new streams
     var flawless = new Flawless({
-        filename: argv.i,
+        filename: argv.e,
         paths: [
             './src/'
         ],
@@ -52,8 +50,8 @@ function compile() {
         browsers: [ 'last 2 versions' ]
     })
 
-    var rs = fs.createReadStream( argv.i )
-    var ws = fs.createWriteStream( argv.o )
+    var rs = argv.e ? fs.createReadStream( argv.e ) : process.stdin
+    var ws = argv.o ? fs.createWriteStream( argv.o ) : process.stdout
 
     // Create transform pipeline
     log( chalk.green( 'write' ), argv.o )
