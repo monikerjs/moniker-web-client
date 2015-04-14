@@ -42,6 +42,7 @@
     "superagent": "^1.1.0"
   },
   "devDependencies": {
+    "autoprefixer": "^5.1.1",
     "autoprefixer-core": "^5.1.9",
     "babelify": "^6.0.2",
     "browserify": "^9.0.7",

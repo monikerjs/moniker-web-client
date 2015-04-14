@@ -8,7 +8,7 @@ var argv = require( 'minimist' )( process.argv.slice( 2 ) );
 var chalk = require( 'chalk' );
 var less = require( 'less' );
 var Flawless = require( 'flawless-compile' );
-var autoprefixer = require( 'autoprefixer-core' );
+var Autoprefixer = require( 'autoprefixer-transform' );
 
 var watchers = [];
 
@@ -22,67 +22,58 @@ var watchers = [];
 // ./lesswatch ./src/**/glob-pattern*.less -i ./src/main.less -o ./public/main.css
 // ./lesswatch ./src/**/*.less -i ./src/styles.less --suppress-output > ./public/styles.css
 
-var flawless = new Flawless({
-    filename: argv.i,
-    paths: [
-        './src/'
-    ],
-    compress: argv.c,
-    sourceMap: true
-})
+
 
 function log() {
     if ( argv[ 'suppress-output' ] ) {
         return;
     }
 
-    process.stdout.write( chalk.grey( '  [lesswatch] ' ) );
-    console.log.apply( console, arguments );
+    process.stdout.write( chalk.grey( '  [flawless] ' ) )
+    console.log.apply( console, arguments )
 }
 
 function compile() {
-    var input = fs.readFileSync( argv.i, {
-        encoding: 'utf8'
-    });
+    // Create new streams
+    var flawless = new Flawless({
+        filename: argv.i,
+        paths: [
+            './src/'
+        ],
+        compress: argv.c,
+        sourceMap: true
+    })
 
-    flawless.compile( input, function( err, output ) {
-        if ( err ) {
-            return console.error( err );
-        }
+    flawless.on( 'error', function( err ) {
+        log( chalk.red( 'error' ), err )
+    })
 
-        var prefixed = autoprefixer.process( output.css ).css;
+    var autoprefixer = new Autoprefixer({
+        browsers: [ 'last 2 versions' ]
+    })
 
-        fs.writeFileSync( argv.o, prefixed );
-        log( chalk.green( 'write' ), argv.o );
-    });
+    var rs = fs.createReadStream( argv.i )
+    var ws = fs.createWriteStream( argv.o )
 
-    // log( chalk.green( 'write' ), argv.o );
-    // fs.createReadStream( argv.i )
-    //     .pipe( flawless.on( 'error', function( err ) {
-    //         console.log( err.stack );
-    //     }) )
-    //     .pipe( autoprefixer({
-    //         browsers: [
-    //             'last 2 version'
-    //         ]
-    //     }) )
-    //     .pipe( fs.createWriteStream( argv.o ) );
+    // Create transform pipeline
+    log( chalk.green( 'write' ), argv.o )
+    rs.pipe( flawless ).pipe( autoprefixer ).pipe( ws )
 }
 
-compile();
+compile()
 
 var watcher = chokidar.watch( argv._ )
     .on( 'change', function( filepath ) {
-        log( chalk.cyan( 'change' ), filepath );
-        compile();
+        log( chalk.yellow( 'change' ), filepath )
+        compile()
     })
     .on( 'ready', function() {
-        var filepath = '';
+        var filepath = ''
         // List watched files
         Object.keys( watcher._watched ).forEach( function( key ) {
             Object.keys( watcher._watched[ key ]._items ).forEach( function( item ) {
-                filepath = path.join( key, item );
-                log( chalk.cyan( 'watch' ), filepath.replace( process.env.PWD + '/', '' ) );
-            });
-        });
-    });
+                filepath = path.join( key, item )
+                log( chalk.cyan( 'watch' ), filepath.replace( process.env.PWD + '/', '' ) )
+            })
+        })
+    })
