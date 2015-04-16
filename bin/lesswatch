@@ -10,6 +10,7 @@ var chalk = require( 'chalk' );
 var Compiler = require( 'ho-compiler' );
 var Autoprefixer = require( 'autoprefixer-transform' );
 var Conformance = require( 'ho-conformance' );
+var DebugTask = require( 'ho-conformance-debug' );
 
 
 /**
@@ -26,7 +27,7 @@ var Conformance = require( 'ho-conformance' );
 
 function log() {
     if ( argv[ 'suppress-output' ] ) {
-        return;
+        return
     }
 
     process.stdout.write( chalk.grey( '  [ho] ' ) )
@@ -58,6 +59,8 @@ function compile() {
             './src'
         ]
     })
+
+    conformance.register( new DebugTask() )
 
     conformance.on( 'error', function( err ) {
         log( chalk.red( 'conformance error' ), err )
