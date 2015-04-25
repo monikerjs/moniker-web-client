@@ -6,7 +6,7 @@ var path = require( 'path' );
 var chokidar = require( 'chokidar' );
 var argv = require( 'minimist' )( process.argv.slice( 2 ) );
 var chalk = require( 'chalk' );
-var Flawless = require( 'flawless-compile' );
+var Ho = require( 'ho-compiler' );
 var Autoprefixer = require( 'autoprefixer-transform' );
 
 
@@ -27,13 +27,13 @@ function log() {
         return;
     }
 
-    process.stdout.write( chalk.grey( '  [flawless] ' ) )
+    process.stdout.write( chalk.grey( '  [ho] ' ) )
     console.log.apply( console, arguments )
 }
 
 function compile() {
     // Create new streams
-    var flawless = new Flawless({
+    var ho = new Ho({
         filename: argv.e,
         paths: [
             './src/'
@@ -42,7 +42,7 @@ function compile() {
         sourceMap: true
     })
 
-    flawless.on( 'error', function( err ) {
+    ho.on( 'error', function( err ) {
         log( chalk.red( 'error' ), err )
     })
 
@@ -55,7 +55,7 @@ function compile() {
 
     // Create transform pipeline
     log( chalk.green( 'write' ), argv.o )
-    rs.pipe( flawless ).pipe( autoprefixer ).pipe( ws )
+    rs.pipe( ho ).pipe( autoprefixer ).pipe( ws )
 }
 
 compile()
