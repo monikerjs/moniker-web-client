@@ -18,10 +18,25 @@
     }
 
     .Header-logo {
-        margin-left: 40px;
+        margin-left: @height / 2;
 
         @media @sm-view {
             margin-left: 5px;
         }
+    }
+
+    .Header-menu {
+        margin-right: @height / 2;
+        height: @height;
+
+        @media @sm-view {
+            margin-right: 5px;
+        }
+    }
+
+    .Header-menuLine {
+        width: @height / 2;
+        height: 3px;
+        background: #898989;
     }
 }

@@ -1,17 +1,22 @@
 
-import React from 'react';
+import React from 'react'
 
 export default class HeaderView extends React.Component {
     constructor() {
-        super();
+        super()
     }
 
     render() {
-        console.log( '[Header]:: render');
+        console.log( '[Header] render')
         return (
-            <header className="Header">
-                <span className="Header-logo">M</span>
+            <header className="Header u-cf">
+                <span className="Header-logo u-pullLeft">M</span>
+                <div className="Header-menu u-pullRight">
+                    <span className="Header-menuLine"></span>
+                    <span className="Header-menuLine"></span>
+                    <span className="Header-menuLine"></span>
+                </div>
             </header>
-        );
+        )
     }
 }

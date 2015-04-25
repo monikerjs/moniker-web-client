@@ -1,5 +1,5 @@
 
-import { Dispatcher } from 'flux';
+import { Dispatcher } from 'flux'
 
 /**
  * Main dispatcher class
@@ -8,9 +8,9 @@ import { Dispatcher } from 'flux';
  */
 class AppDispatcher extends Dispatcher {
     constructor() {
-        super();
+        super()
     }
 }
 
 // Export singleton
-export default new AppDispatcher();
+export default new AppDispatcher()

@@ -1,4 +1,18 @@
 
+/**
+ * Module includes
+ */
+@import './common/modules/queries';
+@import './common/modules/colors';
+@import './common/modules/zindex';
+@import 'ho-grid/mixin';
+
+/**
+ * Base styling includes
+ */
+@import './common/base';
+@import './common/utils';
+
 
 /**
  * Component includes
@@ -6,39 +20,3 @@
  * @TODO this can/should be automated
  */
 @import './components/header/header';
-
-
-/* Media query aliases */
-@sm-view: ~"only screen and ( max-width: 479px )";
-@md-view: ~"only screen and ( max-width: 789px )";
-@lg-view: ~"only screen and ( max-width: 1023px )";
-
-
-/**
- * Base
- * ---
- * @TODO this should not be a permanent home
- */
-
-@bg-color: #fafafa;
-@color: #404040;
-
-body {
-    color: @color;
-    background: @bg-color;
-    margin: 0;
-    padding: 0px;
-    font-family: 'Helvetica Neue', 'Lucida Grande', Helvetica, Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: greyscale;
-}
-
-h1 {
-    color: @color;
-    font-weight: 300;
-    transition: color 1s linear;
-
-    &:hover {
-        transform: translate3d( 10px, 0, 0 ) scale( 2 );
-    }
-}
