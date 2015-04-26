@@ -4,7 +4,7 @@ import Router from 'react-router'
 
 import dispatcher from './dispatchers/appDispatcher'
 import Header from './components/header/header.jsx'
-import EntryView from './views/entryView.jsx'
+import EntryView from './views/entry/entryView.jsx'
 
 
 let DefaultRoute = Router.DefaultRoute
