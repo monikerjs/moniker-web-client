@@ -4,7 +4,7 @@ import Router from 'react-router'
 
 import dispatcher from './dispatchers/appDispatcher'
 import Header from './components/header/header.jsx'
-import Main from './views/main.jsx'
+import EntryView from './views/entryView.jsx'
 
 
 let DefaultRoute = Router.DefaultRoute
@@ -32,7 +32,7 @@ class App extends React.Component {
 
 var routes = (
     <Route name="app" handler={ App } path="/">
-        <DefaultRoute handler={ Main } />
+        <DefaultRoute handler={ EntryView } />
     </Route>
 )
 
