@@ -13,6 +13,13 @@
         display: block;
     }
 
+    .EntryHeader-CategoryWrapper,
+    .EntryHeader-Filters {
+        @media @sm-view {
+            float: none !important;
+        }
+    }
+
     .EntryHeader-Category {
         font-size: 27px;
         line-height: 27px;
@@ -35,6 +42,9 @@
         margin: 0px 2px;
         padding: 4px 14px;
         display: inline-block;
+        border-radius: 3px;
+
+        transition: background .177s linear;
 
         &:last-child {
             margin-right: -14px;
@@ -44,5 +54,9 @@
             cursor: pointer;
             background: white;
         }
+    }
+
+    .EntryHeader-Filter--isActive {
+        background: white;
     }
 }
