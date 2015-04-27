@@ -1,5 +1,5 @@
 
-import EventEmitter from 'eventemitter3';
+import EventEmitter from 'eventemitter3'
 
 
 class EntryStore extends EventEmitter {
@@ -9,4 +9,4 @@ class EntryStore extends EventEmitter {
 }
 
 
-export default new EntryStore();
+export default new EntryStore()

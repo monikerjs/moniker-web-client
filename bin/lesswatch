@@ -7,7 +7,7 @@ var chokidar = require( 'chokidar' );
 var argv = require( 'minimist' )( process.argv.slice( 2 ) );
 var chalk = require( 'chalk' );
 
-var Compiler = require( 'ho-compiler' );
+var Ho = require( 'ho-compiler' );
 var Autoprefixer = require( 'autoprefixer-transform' );
 var Conformance = require( 'ho-conformance' );
 var DebugTask = require( 'ho-conformance-debug' );
@@ -36,17 +36,19 @@ function log() {
 
 function compile() {
     // Create new streams
-    var compiler = new Compiler({
+    var ho = new Ho({
         filename: argv.e,
         paths: [
-            './src/'
+            './src/',
+            './node_modules'
         ],
         compress: argv.c,
         sourceMap: false
     })
 
-    compiler.on( 'error', function( err ) {
-        log( chalk.red( 'compiler error' ), err )
+
+    ho.on( 'error', function( err ) {
+        log( chalk.red( 'error' ), err )
     })
 
     var autoprefixer = new Autoprefixer({
@@ -71,11 +73,8 @@ function compile() {
 
     // Create transform pipeline
     log( chalk.green( 'write' ), argv.o )
-    rs
-        .pipe( conformance )
-        .pipe( compiler )
-        .pipe( autoprefixer )
-        .pipe( ws )
+
+    rs.pipe( ho ).pipe( autoprefixer ).pipe( ws )
 }
 
 compile()

@@ -1,0 +1,62 @@
+/** @define EntryHeader; use strict */
+
+.EntryHeader {
+    @color-muted: #898989;
+    @color-slate: #545454;
+    @color-standard: #404040;
+
+    .EntryHeader-Label {
+        font-size: 11px;
+        text-transform: uppercase;
+        line-height: 15px;
+        color: @color-muted;
+        display: block;
+    }
+
+    .EntryHeader-CategoryWrapper,
+    .EntryHeader-Filters {
+        @media @sm-view {
+            float: none !important;
+        }
+    }
+
+    .EntryHeader-Category {
+        font-size: 27px;
+        line-height: 27px;
+        margin-top: 8px;
+        color: @color-standard;
+        display: block;
+    }
+
+    .EntryHeader-Filters {
+        list-style-type: none;
+        padding: 0;
+        margin-top: 30px;
+        margin-bottom: 0px;
+        font-size: 13px;
+        line-height: 13px;
+        text-transform: uppercase;
+    }
+
+    .EntryHeader-Filter {
+        margin: 0px 2px;
+        padding: 4px 14px;
+        display: inline-block;
+        border-radius: 3px;
+
+        transition: background .177s linear;
+
+        &:last-child {
+            margin-right: -14px;
+        }
+
+        &:hover {
+            cursor: pointer;
+            background: white;
+        }
+    }
+
+    .EntryHeader-Filter--isActive {
+        background: white;
+    }
+}

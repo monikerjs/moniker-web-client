@@ -1,2 +1,3 @@
 
-require( 'babel/polyfill' );
+require( 'babel/polyfill' )
+require( 'whatwg-fetch' )
