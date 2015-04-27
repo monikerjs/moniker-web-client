@@ -3,12 +3,22 @@
  * ---
  */
 
+html {
+    // anti-fout
+    &.wf-active body {
+        opacity: 1;
+    }
+}
+
 body {
     color: @color;
-    background: @bg-color;
+    background: @color-bg;
     margin: 0;
     padding: 0px;
-    font-family: 'Proxima Nova', 'Helvetica Neue', 'Lucida Grande', Helvetica, Arial, sans-serif;
+    font-family: 'proxima-nova', 'Helvetica Neue', 'Lucida Grande', Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: greyscale;
+
+    opacity: 0;
+    transition: opacity .1777s ease-out;
 }

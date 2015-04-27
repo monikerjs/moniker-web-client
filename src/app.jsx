@@ -2,6 +2,8 @@
 import React from 'react'
 import Router from 'react-router'
 
+import './utils/typekit'
+
 import dispatcher from './dispatchers/appDispatcher'
 import Header from './components/header/header.jsx'
 import EntryView from './views/entry/entryView.jsx'
